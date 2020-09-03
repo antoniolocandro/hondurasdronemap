@@ -7,6 +7,13 @@ deny from all
     allow from all
 </Files>
 
+
+# Allow access to geojson files
+<Files *.geojson>
+    allow from all
+</Files>
+
+
 # Deny access to sub directory
 <Files subdirectory/*>
     deny from all
