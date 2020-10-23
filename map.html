@@ -22,6 +22,36 @@
 			width: 600px;
 			height: 400px;
 		}
+		
+		#ac-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .6);
+    z-index: 1001;
+}
+#popup {
+@media only screen and (max-width: 100px) {
+ .popupBoxWrapper{
+     width:50%;
+	 padding: 1rem 1rem 1rem 1rem;
+  }
+}
+    height: 100%;
+    background: #FFFFFF;
+    border: 5px solid #000;
+    border-radius: 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    box-shadow: #64686e 0px 0px 3px 3px;
+    -moz-box-shadow: #64686e 0px 0px 3px 3px;
+    -webkit-box-shadow: #64686e 0px 0px 3px 3px;
+    position: relative;
+	top: 150 px;
+
+}
 	</style>
 
 	<style>body { padding: 0; margin: 0; } #mapid { height: 100%; width: 100vw; }</style>
@@ -29,10 +59,28 @@
 </head>
 <body>
 
+<div id="ac-wrapper" style='display:none'>
+    <div id="popup">
+        <center>
+             <h2>Descargo de Responsabilidad</h2>
+<p>El siguiente app no es operacional al momento y es un proyecto de investigación en conjunto con el Departamento de Ciencias Aeronaúticas de la Universidad Nacional Autonoma de Honduras (UNAH). </br></br> La información oficial es la contenidad en la Circular de Obligatorio Cumplimiento (COC) emitida por la Agencia Hondureña de Aviación Civil (AHAC)</p>
+<p>Favor asegurarse de cumplir con todos los requisitos de ley</p>
+            <input type="submit" name="submit" value="De Acuerdo" onClick="PopUp('hide')" />
+        </center>
+    </div>
+</div>
 
 <div id="mapid"></div>
 <script>
-
+function PopUp(hideOrshow) {
+    if (hideOrshow == 'hide') document.getElementById('ac-wrapper').style.display = "none";
+    else document.getElementById('ac-wrapper').removeAttribute('style');
+}
+window.onload = function () {
+    setTimeout(function () {
+        PopUp('show');
+    }, 2000);
+}
 	var mymap = L.map('mapid').setView([15.292,-86.291], 8);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
