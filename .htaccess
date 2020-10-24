@@ -13,6 +13,10 @@ deny from all
     allow from all
 </Files>
 
+# Allow access to png files
+<Files *.png>
+    allow from all
+</Files>
 
 # Deny access to sub directory
 <Files subdirectory/*>

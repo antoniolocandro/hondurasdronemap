@@ -53,12 +53,41 @@
     position: relative;
 
 }
+
+
+#logoFLYGHT7 {
+  position: fixed;
+  z-index: 1002;
+
+  width: 60px;
+  height: 60px;
+right: 5px;
+bottom: 20px;
+}
+
+#logoUNAH {
+  position: fixed;
+  z-index: 1002;
+
+  width: 60px;
+  height: 60px;
+right: 75px;
+bottom: 20px;
+}
 	</style>
 
 	<style>body { padding: 0; margin: 0; } #mapid { height: 100%; width: 100vw; }</style>
 	
 </head>
 <body>
+
+<!-- <div id="logoFLYGHT7"> -->
+<!-- <img id="myImg" src="img/logo_round.png" alt="FLYGHT7 logo" width="60" height="60"> -->
+<!-- </div> -->
+
+<!-- <div id="logoUNAH"> -->
+<!-- <img id="myImg2" src="img/logo_dca.png" alt="DCA logo" width="60" height="60"> -->
+<!-- </div> -->
 
 <div id="ac-wrapper" style='display:none'>
     <div id="popup">
@@ -234,6 +263,15 @@ function onMapClick(e) {
 
 mymap.on('click', onMapClick);
 
+// Add logo UNAH
+var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
+var logoContainer = document.getElementById("logoUNAH");
+
+// Add logo FLYGHT7
+var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
+var logoContainer = document.getElementById("logoFLYGHT7");
+
+mapControlsContainer.appendChild(logoContainer);
 
 </script>
 
