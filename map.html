@@ -176,7 +176,7 @@ airportareaLayer.addTo(mymap);
 
 var baseMaps = {
 	"Open Street Map": OSM,   
-	"Imagery": Esri_WorldImagery,	
+	"Satellite Imagery": Esri_WorldImagery,	
 	"Carto DB Positron": Carto,  
 
 };
@@ -189,6 +189,17 @@ var overlayMaps = {
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 
+// right click function
+
+//Right click on the map activated
+<!-- var popup3 = L.popup(); -->
+
+<!-- mymap.on('contextmenu', function(q) { -->
+        <!-- popup3 -->
+        <!-- .setLatLng(q.latlng) -->
+        <!-- .setContent("Reportar error en las siguientes Coordenadas:" +'</br>'+ q.latlng.toString()) -->
+        <!-- .openOn(mymap); -->
+<!-- }); -->
 
 // function to add geolocation
 
@@ -217,7 +228,7 @@ var popup2 = L.popup();
 function onMapClick(e) {
     popup2
         .setLatLng(e.latlng)
-        .setContent("Coordenadas:" + e.latlng.toString())
+        .setContent("Coordenadas:" +'</br>'+ e.latlng.toString())
         .openOn(mymap);
 }
 
