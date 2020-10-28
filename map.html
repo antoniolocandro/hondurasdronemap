@@ -33,13 +33,15 @@
     z-index: 1001;
 }
 #popup {
-@media only screen and (max-width: 100px) {
+@media only screen and (max-width: 320px) {
  .popupBoxWrapper{
-     width:50%;
-	 padding: 1rem 1rem 1rem 1rem;
+     width:400px;
+
   }
 }
-    height: 100%;
+    margin: 0 auto
+	width: 90%
+    height: 50%;
     background: #FFFFFF;
     border: 5px solid #000;
     border-radius: 25px;
@@ -49,8 +51,28 @@
     -moz-box-shadow: #64686e 0px 0px 3px 3px;
     -webkit-box-shadow: #64686e 0px 0px 3px 3px;
     position: relative;
-	top: 150 px;
 
+}
+
+
+#logoFLYGHT7 {
+  position: fixed;
+  z-index: 1002;
+
+  width: 60px;
+  height: 60px;
+right: 5px;
+bottom: 20px;
+}
+
+#logoUNAH {
+  position: fixed;
+  z-index: 1002;
+
+  width: 60px;
+  height: 60px;
+right: 75px;
+bottom: 20px;
 }
 	</style>
 
@@ -58,6 +80,14 @@
 	
 </head>
 <body>
+
+<!-- <div id="logoFLYGHT7"> -->
+<!-- <img id="myImg" src="img/logo_round.png" alt="FLYGHT7 logo" width="60" height="60"> -->
+<!-- </div> -->
+
+<!-- <div id="logoUNAH"> -->
+<!-- <img id="myImg2" src="img/logo_dca.png" alt="DCA logo" width="60" height="60"> -->
+<!-- </div> -->
 
 <div id="ac-wrapper" style='display:none'>
     <div id="popup">
@@ -95,17 +125,110 @@ var OSM = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?a
 		id: 'mapbox/streets-v11',
 		tileSize: 512,
 		zoomOffset: -1
+	});
+
+var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+}).addTo(mymap);
+
+var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 	}).addTo(mymap);
 
-var airportLayer = new L.GeoJSON.AJAX("airports.geojson");       
+
+// AirportHeliport Layer Style 
+
+var myStyle3 = L.icon({
+    iconUrl: 'icons/noun/noun_Airport_2431.png',
+    iconSize: [132, 137],
+    iconAnchor: [16, 37],
+    popupAnchor: [0, -28]
+});
+
+var airportLayer = new L.GeoJSON.AJAX("airports.geojson");     
 airportLayer.addTo(mymap);
-var zprdLayer = new L.GeoJSON.AJAX("zprd.geojson");       
+
+// Prohibited, Restricted and Danger Areas style 
+//var myStyle2 = {
+  //      "color": "#A82323",
+    //    "weight": 5,
+     //   "opacity": 0.65
+    //};
+
+function myStyle2 (feature) {
+var colorToUse;
+var line = feature.properties.type_area;
+  if (line === "P") colorToUse = "#E81D1A";
+  else if (line === "R") colorToUse = "#FF4300";
+  else if (line === "D") colorToUse = "#FFBB00";
+  else colorToUse = "#000000";
+
+ return {
+    "color": colorToUse,
+    "weight": 1,
+	"opacity": 0.65
+  };}
+
+var zprdLayer = new L.GeoJSON.AJAX("zprd.geojson",{style:myStyle2});       
 zprdLayer.addTo(mymap);
-var airportareaLayer = new L.GeoJSON.AJAX("areas_airports.geojson");       
+
+// Airport Area Style
+
+//var myStyle = {
+//        "color": "#ff7800",
+//		"dashArray":"4",
+//        "weight": 2,
+//        "opacity": 0.65
+//    };
+
+function myStyle (feature) {
+var colorToUse;
+var line2 = feature.properties.buffer_rad;
+  if (line2 === "5") colorToUse = "#FF00E2";
+  else if (line2 === "3") colorToUse = "#00A2FF";
+  else if (line2 === "1") colorToUse = "#AD0000";
+  else colorToUse = "#000000";
+
+ return {
+    "color": colorToUse,
+	"dashArray":"4",
+    "weight": 2,
+	"opacity": 0.65
+  };}
+
+var airportareaLayer = new L.GeoJSON.AJAX("areas_airports.geojson",{style:myStyle});       
 airportareaLayer.addTo(mymap);
 
 // function to create a layer switcher control
 
+var baseMaps = {
+	"Open Street Map": OSM,   
+	"Satellite Imagery": Esri_WorldImagery,	
+	"Carto DB Positron": Carto,  
+
+};
+
+var overlayMaps = {
+    "Areas alrededor Aeropuertos y Helipuertos":airportareaLayer,
+	"Zonas Protegidas, Restringidas y Peligrosas":zprdLayer,
+	"Aeropuertos y Helipuertos":airportLayer
+};  
+
+L.control.layers(baseMaps,overlayMaps).addTo(mymap);
+
+// right click function
+
+//Right click on the map activated
+<!-- var popup3 = L.popup(); -->
+
+<!-- mymap.on('contextmenu', function(q) { -->
+        <!-- popup3 -->
+        <!-- .setLatLng(q.latlng) -->
+        <!-- .setContent("Reportar error en las siguientes Coordenadas:" +'</br>'+ q.latlng.toString()) -->
+        <!-- .openOn(mymap); -->
+<!-- }); -->
 
 // function to add geolocation
 
@@ -126,6 +249,29 @@ function onLocationFound(e) {
 	mymap.on('locationerror', onLocationError);
 
 	mymap.locate({setView: true, maxZoom: 16});
+
+// function to add Click event 
+
+var popup2 = L.popup();
+
+function onMapClick(e) {
+    popup2
+        .setLatLng(e.latlng)
+        .setContent("Coordenadas:" +'</br>'+ e.latlng.toString())
+        .openOn(mymap);
+}
+
+mymap.on('click', onMapClick);
+
+// Add logo UNAH
+var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
+var logoContainer = document.getElementById("logoUNAH");
+
+// Add logo FLYGHT7
+var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
+var logoContainer = document.getElementById("logoFLYGHT7");
+
+mapControlsContainer.appendChild(logoContainer);
 
 </script>
 
