@@ -13,18 +13,19 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
-		#mapid {
-			width: 600px;
-			height: 400px;
-		}
+<style>
+html, body {
+	height: 100%;
+	margin: 0;
+	}
+
+#mapid {
+	width: 600px;
+	height: 400px;
+	}
 		
-		#ac-wrapper {
-    position: fixed;
+#ac-wrapper {
+	position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -33,8 +34,8 @@
     z-index: 1001;
 }
 #popup {
-@media only screen and (max-width: 320px) {
- .popupBoxWrapper{
+	@media only screen and (max-width: 320px) {
+	.popupBoxWrapper{
      width:400px;
 
   }
@@ -56,38 +57,37 @@
 
 
 #logoFLYGHT7 {
-  position: fixed;
-  z-index: 1002;
-
-  width: 60px;
-  height: 60px;
-right: 5px;
-bottom: 20px;
+	position: fixed;
+	z-index: 1000;
+	width: 60px;
+	height: 60px;
+	right: 5px;
+	bottom: 20px;
 }
 
 #logoUNAH {
   position: fixed;
-  z-index: 1002;
+  z-index: 1000;
 
   width: 60px;
   height: 60px;
 right: 75px;
 bottom: 20px;
 }
-	</style>
+</style>
 
-	<style>body { padding: 0; margin: 0; } #mapid { height: 100%; width: 100vw; }</style>
+<style>body { padding: 0; margin: 0; } #mapid { height: 100%; width: 100vw; }</style>
 	
 </head>
 <body>
 
-<!-- <div id="logoFLYGHT7"> -->
-<!-- <img id="myImg" src="img/logo_round.png" alt="FLYGHT7 logo" width="60" height="60"> -->
-<!-- </div> -->
+<div id="logoFLYGHT7">
+<img id="myImg" src="img/logo_round.png" alt="FLYGHT7 logo" width="60" height="60">
+</div>
 
-<!-- <div id="logoUNAH"> -->
-<!-- <img id="myImg2" src="img/logo_dca.png" alt="DCA logo" width="60" height="60"> -->
-<!-- </div> -->
+<div id="logoUNAH">
+<img id="myImg2" src="img/logo_dca.png" alt="DCA logo" width="60" height="60">
+</div>
 
 <div id="ac-wrapper" style='display:none'>
     <div id="popup">
