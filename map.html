@@ -7,77 +7,14 @@
 	<title>Honduras Drone Map</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="anonymous"/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 
-<style>
-html, body {
-	height: 100%;
-	margin: 0;
-	}
 
-#mapid {
-	width: 600px;
-	height: 400px;
-	}
-		
-#ac-wrapper {
-	position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, .6);
-    z-index: 1001;
-}
-#popup {
-	@media only screen and (max-width: 320px) {
-	.popupBoxWrapper{
-     width:400px;
-
-  }
-}
-    margin: 0 auto
-	width: 90%
-    height: 50%;
-    background: #FFFFFF;
-    border: 5px solid #000;
-    border-radius: 25px;
-    -moz-border-radius: 25px;
-    -webkit-border-radius: 25px;
-    box-shadow: #64686e 0px 0px 3px 3px;
-    -moz-box-shadow: #64686e 0px 0px 3px 3px;
-    -webkit-box-shadow: #64686e 0px 0px 3px 3px;
-    position: relative;
-
-}
-
-
-#logoFLYGHT7 {
-	position: fixed;
-	z-index: 1000;
-	width: 60px;
-	height: 60px;
-	right: 5px;
-	bottom: 20px;
-}
-
-#logoUNAH {
-  position: fixed;
-  z-index: 1000;
-
-  width: 60px;
-  height: 60px;
-right: 75px;
-bottom: 20px;
-}
-</style>
-
-<style>body { padding: 0; margin: 0; } #mapid { height: 100%; width: 100vw; }</style>
-	
 </head>
 <body>
 
@@ -147,7 +84,7 @@ var myStyle3 = L.icon({
     popupAnchor: [0, -28]
 });
 
-var airportLayer = new L.GeoJSON.AJAX("airports.geojson");     
+var airportLayer = new L.GeoJSON.AJAX("data/airports.geojson");     
 airportLayer.addTo(mymap);
 
 // Prohibited, Restricted and Danger Areas style 
@@ -171,7 +108,7 @@ var line = feature.properties.type_area;
 	"opacity": 0.65
   };}
 
-var zprdLayer = new L.GeoJSON.AJAX("zprd.geojson",{style:myStyle2});       
+var zprdLayer = new L.GeoJSON.AJAX("data/zprd.geojson",{style:myStyle2});       
 zprdLayer.addTo(mymap);
 
 // Airport Area Style
@@ -198,7 +135,7 @@ var line2 = feature.properties.buffer_rad;
 	"opacity": 0.65
   };}
 
-var airportareaLayer = new L.GeoJSON.AJAX("areas_airports.geojson",{style:myStyle});       
+var airportareaLayer = new L.GeoJSON.AJAX("data/areas_airports.geojson",{style:myStyle});       
 airportareaLayer.addTo(mymap);
 
 // function to create a layer switcher control
