@@ -18,7 +18,12 @@ deny from all
     allow from all
 </Files>
 
-# Deny access to sub directory
-<Files subdirectory/*>
-    deny from all
+# Allow access to js files
+<Files *.js>
+    allow from all
 </Files>
+
+# Deny access to sub directory
+#<Files subdirectory/*>
+#    deny from all
+#</Files>

@@ -7,11 +7,20 @@
 	<title>Honduras Drone Map</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+	<!-- <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" /> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="anonymous"/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin="anonymous"></script>
 
+<!-- Adds LeafletJS library  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+
+<!-- Adds geolocation control  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.72.0/dist/L.Control.Locate.min.css" />
+<script src="src/L.Control.Locate.js" charset="utf-8"></script>
+
+
+
 
 <style>
 html, body {
@@ -133,7 +142,7 @@ var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}
 	maxZoom: 19
 }).addTo(mymap);
 
-var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 	}).addTo(mymap);
 
@@ -217,7 +226,7 @@ var overlayMaps = {
 };  
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
-
+L.control.locate().addTo(mymap);
 // right click function
 
 //Right click on the map activated
@@ -232,23 +241,23 @@ L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 
 // function to add geolocation
 
-function onLocationFound(e) {
-		var radius = e.accuracy / 2;
+<!-- function onLocationFound(e) { -->
+		<!-- var radius = e.accuracy / 2; -->
 
-		L.marker(e.latlng).addTo(mymap)
-			.bindPopup("You are within " + radius + " meters from this point").openPopup();
+		<!-- L.marker(e.latlng).addTo(mymap) -->
+			<!-- .bindPopup("You are within " + radius + " meters from this point").openPopup(); -->
 
-		L.circle(e.latlng, radius).addTo(mymap);
-	}
+		<!-- L.circle(e.latlng, radius).addTo(mymap); -->
+	<!-- } -->
 
-	function onLocationError(e) {
-		alert(e.message);
-	}
+	<!-- function onLocationError(e) { -->
+		<!-- alert(e.message); -->
+	<!-- } -->
 
-	mymap.on('locationfound', onLocationFound);
-	mymap.on('locationerror', onLocationError);
+	<!-- mymap.on('locationfound', onLocationFound); -->
+	<!-- mymap.on('locationerror', onLocationError); -->
 
-	mymap.locate({setView: true, maxZoom: 16});
+	<!-- mymap.locate({setView: true, maxZoom: 16}); -->
 
 // function to add Click event 
 
@@ -262,6 +271,7 @@ function onMapClick(e) {
 }
 
 mymap.on('click', onMapClick);
+
 
 // Add logo UNAH
 var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
