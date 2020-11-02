@@ -13,6 +13,11 @@ deny from all
     allow from all
 </Files>
 
+# Allow access to svg files
+<Files *.svg>
+    allow from all
+</Files>
+
 # Allow access to png files
 <Files *.png>
     allow from all
