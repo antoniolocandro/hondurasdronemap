@@ -143,6 +143,19 @@ var line2 = feature.properties.buffer_rad;
 var airportareaLayer = new L.GeoJSON.AJAX("data/areas_airports.geojson",{style:myStyle});       
 airportareaLayer.addTo(mymap);
 
+// Area protegida
+
+
+var myStyle4 = {
+        "color": "#41FF00",
+		//"dashArray":"4",
+        "weight": 2,
+        "opacity": 0.85
+    };
+
+var areaprotegidaLayer = new L.GeoJSON.AJAX("data/areas_protegidas.geojson",{style:myStyle4});       
+areaprotegidaLayer.addTo(mymap);
+
 // function to create a layer switcher control
 
 var baseMaps = {
@@ -155,7 +168,8 @@ var baseMaps = {
 var overlayMaps = {
     "Areas alrededor Aeropuertos y Helipuertos":airportareaLayer,
 	"Zonas Protegidas, Restringidas y Peligrosas":zprdLayer,
-	"Aeropuertos y Helipuertos":airportLayer
+	"Aeropuertos y Helipuertos":airportLayer,
+	"Areas Protegidas":areaprotegidaLayer,
 };  
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
