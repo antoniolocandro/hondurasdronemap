@@ -21,6 +21,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.72.0/dist/L.Control.Locate.min.css" />
 <script src="src/L.Control.Locate.js" charset="utf-8"></script>
 
+<!-- Add load layer -->
+<script src="https://unpkg.com/togeojson@0.16.0"></script>
+<script src="https://unpkg.com/leaflet-filelayer@1.2.0"></script>
 
 </head>
 <body>
@@ -71,15 +74,44 @@ var OSM = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?a
 		zoomOffset: -1
 	});
 
-var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+var Carto2 = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 	subdomains: 'abcd',
 	maxZoom: 19
 }).addTo(mymap);
 
+var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+});
+
 var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}).addTo(mymap);
+	});
+
+// Load layer and add to overlay
+
+
+var control = L.Control.fileLayerLoad().addTo(mymap);
+
+<!-- function onLayerLoad(e) { -->
+    <!-- yourLocation = L.marker(e.latlng); -->
+
+    <!-- overlayMaps["You"] = yourLocation; -->
+
+    <!-- L.control.layers(null, overlayMaps).addTo(map); -->
+  <!-- } -->
+
+  <!-- map.on('locationfound', onLocationFound); -->
+
+  <!-- function onLocationError(e) { -->
+    <!-- alert(e.message); -->
+
+    <!-- L.control.layers(null, overlayMaps).addTo(map); -->
+  <!-- } -->
+
+  <!-- map.on('locationerror', onLocationError); -->
 
 
 // AirportHeliport Layer Style 
@@ -157,11 +189,17 @@ var areaprotegidaLayer = new L.GeoJSON.AJAX("data/areas_protegidas.geojson",{sty
 areaprotegidaLayer.addTo(mymap);
 
 // function to create a layer switcher control
+    //control.loader.on('data:loaded', function (e) {
+   // overlayMaps["Archivo Local"] = e.layer;
+	//layerControl.addOverlay(e.layer, "archivo");
+  //  L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+//  });
 
 var baseMaps = {
 	"Open Street Map": OSM,   
 	"Satellite Imagery": Esri_WorldImagery,	
 	"Carto DB Positron": Carto,  
+	"Carto DB Dark": Carto2,
 
 };
 
@@ -174,6 +212,9 @@ var overlayMaps = {
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 L.control.locate().addTo(mymap);
+
+
+
 // right click function
 
 //Right click on the map activated
