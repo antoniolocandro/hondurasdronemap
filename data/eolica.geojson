@@ -1,0 +1,14 @@
+{
+"type": "FeatureCollection",
+"name": "eolica",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Estado": "Facturando", "Proyecto": "Proyecto Eolico Mesoamerica / Cerro de Hula / Honduras 2000", "Departamen": "Francisco Morazan" }, "geometry": { "type": "Point", "coordinates": [ -87.2374, 13.9354 ] } },
+{ "type": "Feature", "properties": { "Estado": "Facturando", "Proyecto": "Parque Eolico Chinchayote", "Departamen": "Choluteca" }, "geometry": { "type": "Point", "coordinates": [ -86.922, 13.3648 ] } },
+{ "type": "Feature", "properties": { "Estado": "En Proceso", "Proyecto": "Proyecto Eolico Cololaca", "Departamen": "Lempira" }, "geometry": { "type": "Point", "coordinates": [ -88.9085, 14.3404 ] } },
+{ "type": "Feature", "properties": { "Estado": "En Proceso", "Proyecto": "Proyecto Eolico Los Tablones", "Departamen": "Francisco Morazan" }, "geometry": { "type": "Point", "coordinates": [ -87.3772, 13.9725 ] } },
+{ "type": "Feature", "properties": { "Estado": "Facturando", "Proyecto": "Central Eolica San Marcos 1", "Departamen": "Choluteca" }, "geometry": { "type": "Point", "coordinates": [ -86.9446, 13.3917 ] } },
+{ "type": "Feature", "properties": { "Estado": "Facturando", "Proyecto": "Central Eolica San Marcos 2", "Departamen": "Choluteca" }, "geometry": { "type": "Point", "coordinates": [ -86.8946, 13.454 ] } },
+{ "type": "Feature", "properties": { "Estado": "En Construccion", "Proyecto": "Proyecto Eolico Chinchayote", "Departamen": "Choluteca" }, "geometry": { "type": "Point", "coordinates": [ -86.9564, 13.3809 ] } }
+]
+}

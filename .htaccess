@@ -23,6 +23,11 @@ deny from all
     allow from all
 </Files>
 
+# Allow access to jpg files
+<Files *.jpg>
+    allow from all
+</Files>
+
 # Allow access to css files
 <Files *.css>
     allow from all

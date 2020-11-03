@@ -188,6 +188,36 @@ var myStyle4 = {
 var areaprotegidaLayer = new L.GeoJSON.AJAX("data/areas_protegidas.geojson",{style:myStyle4});       
 areaprotegidaLayer.addTo(mymap);
 
+// Hidroelectrica Layer Style 
+
+var myStyleh = L.icon({
+    iconUrl: "icons/icon-library/hydropower-icon-22.jpg",
+    iconSize: [24, 24],
+});
+
+var hidroLayer = new L.GeoJSON.AJAX(["data/hidroelectrica.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStyleh});}});      
+hidroLayer.addTo(mymap);
+
+// termica Layer Style 
+
+var myStylet = L.icon({
+    iconUrl: "icons/power-plant.svg",
+    iconSize: [24, 24],
+});
+
+var TermicaLayer = new L.GeoJSON.AJAX(["data/termicas.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStylet});}});      
+TermicaLayer.addTo(mymap);
+
+// eolica Layer Style 
+
+var myStylee = L.icon({
+    iconUrl: "icons/windmill.svg",
+    iconSize: [24, 24],
+});
+
+var EolicaLayer = new L.GeoJSON.AJAX(["data/eolica.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStylee});}});      
+EolicaLayer.addTo(mymap);
+
 // function to create a layer switcher control
     //control.loader.on('data:loaded', function (e) {
    // overlayMaps["Archivo Local"] = e.layer;
@@ -208,6 +238,9 @@ var overlayMaps = {
 	"Zonas Protegidas, Restringidas y Peligrosas":zprdLayer,
 	"Aeropuertos y Helipuertos":airportLayer,
 	"Areas Protegidas":areaprotegidaLayer,
+	"Centrales Hidrolectricas":hidroLayer,
+	"Energia Termica":TermicaLayer,
+	"Energia Eolica":EolicaLayer,
 };  
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
