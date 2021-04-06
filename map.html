@@ -21,6 +21,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.72.0/dist/L.Control.Locate.min.css" />
 <script src="src/L.Control.Locate.js" charset="utf-8"></script>
 
+<!-- Add load layer -->
+<script src="https://unpkg.com/togeojson@0.16.0"></script>
+<script src="https://unpkg.com/leaflet-filelayer@1.2.0"></script>
 
 </head>
 <body>
@@ -71,27 +74,54 @@ var OSM = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?a
 		zoomOffset: -1
 	});
 
-var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+var Carto2 = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
 	subdomains: 'abcd',
 	maxZoom: 19
 }).addTo(mymap);
 
+var Carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	subdomains: 'abcd',
+	maxZoom: 19
+});
+
 var Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}).addTo(mymap);
+	});
+
+// Load layer and add to overlay
+
+
+var control = L.Control.fileLayerLoad().addTo(mymap);
+
+<!-- function onLayerLoad(e) { -->
+    <!-- yourLocation = L.marker(e.latlng); -->
+
+    <!-- overlayMaps["You"] = yourLocation; -->
+
+    <!-- L.control.layers(null, overlayMaps).addTo(map); -->
+  <!-- } -->
+
+  <!-- map.on('locationfound', onLocationFound); -->
+
+  <!-- function onLocationError(e) { -->
+    <!-- alert(e.message); -->
+
+    <!-- L.control.layers(null, overlayMaps).addTo(map); -->
+  <!-- } -->
+
+  <!-- map.on('locationerror', onLocationError); -->
 
 
 // AirportHeliport Layer Style 
 
 var myStyle3 = L.icon({
-    iconUrl: 'icons/noun/noun_Airport_2431.png',
-    iconSize: [132, 137],
-    iconAnchor: [16, 37],
-    popupAnchor: [0, -28]
+    iconUrl: "icons/iconpacks/airport-location-4356.svg",
+    iconSize: [32, 32],
 });
 
-var airportLayer = new L.GeoJSON.AJAX("data/airports.geojson");     
+var airportLayer = new L.GeoJSON.AJAX(["data/airports.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStyle3});}});      
 airportLayer.addTo(mymap);
 
 // Prohibited, Restricted and Danger Areas style 
@@ -145,23 +175,79 @@ var line2 = feature.properties.buffer_rad;
 var airportareaLayer = new L.GeoJSON.AJAX("data/areas_airports.geojson",{style:myStyle});       
 airportareaLayer.addTo(mymap);
 
+// Area protegida
+
+
+var myStyle4 = {
+        "color": "#41FF00",
+		//"dashArray":"4",
+        "weight": 2,
+        "opacity": 0.85
+    };
+
+var areaprotegidaLayer = new L.GeoJSON.AJAX("data/areas_protegidas.geojson",{style:myStyle4});       
+areaprotegidaLayer.addTo(mymap);
+
+// Hidroelectrica Layer Style 
+
+var myStyleh = L.icon({
+    iconUrl: "icons/icon-library/hydropower-icon-22.jpg",
+    iconSize: [24, 24],
+});
+
+var hidroLayer = new L.GeoJSON.AJAX(["data/hidroelectrica.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStyleh});}});      
+hidroLayer.addTo(mymap);
+
+// termica Layer Style 
+
+var myStylet = L.icon({
+    iconUrl: "icons/power-plant.svg",
+    iconSize: [24, 24],
+});
+
+var TermicaLayer = new L.GeoJSON.AJAX(["data/termicas.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStylet});}});      
+TermicaLayer.addTo(mymap);
+
+// eolica Layer Style 
+
+var myStylee = L.icon({
+    iconUrl: "icons/windmill.svg",
+    iconSize: [24, 24],
+});
+
+var EolicaLayer = new L.GeoJSON.AJAX(["data/eolica.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStylee});}});      
+EolicaLayer.addTo(mymap);
+
 // function to create a layer switcher control
+    //control.loader.on('data:loaded', function (e) {
+   // overlayMaps["Archivo Local"] = e.layer;
+	//layerControl.addOverlay(e.layer, "archivo");
+  //  L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+//  });
 
 var baseMaps = {
 	"Open Street Map": OSM,   
 	"Satellite Imagery": Esri_WorldImagery,	
 	"Carto DB Positron": Carto,  
+	"Carto DB Dark": Carto2,
 
 };
 
 var overlayMaps = {
     "Areas alrededor Aeropuertos y Helipuertos":airportareaLayer,
 	"Zonas Protegidas, Restringidas y Peligrosas":zprdLayer,
-	"Aeropuertos y Helipuertos":airportLayer
+	"Aeropuertos y Helipuertos":airportLayer,
+	"Areas Protegidas":areaprotegidaLayer,
+	"Centrales Hidrolectricas":hidroLayer,
+	"Energia Termica":TermicaLayer,
+	"Energia Eolica":EolicaLayer,
 };  
 
 L.control.layers(baseMaps,overlayMaps).addTo(mymap);
 L.control.locate().addTo(mymap);
+
+
+
 // right click function
 
 //Right click on the map activated
@@ -198,14 +284,14 @@ L.control.locate().addTo(mymap);
 
 var popup2 = L.popup();
 
-function onMapClick(e) {
-    popup2
-        .setLatLng(e.latlng)
-        .setContent("Coordenadas:" +'</br>'+ e.latlng.toString())
-        .openOn(mymap);
-}
+<!-- function onMapClick(e) { -->
+    <!-- popup2 -->
+        <!-- .setLatLng(e.latlng) -->
+        <!-- .setContent("Coordenadas:" +'</br>'+ e.latlng.toString()) -->
+        <!-- .openOn(mymap); -->
+<!-- } -->
 
-mymap.on('click', onMapClick);
+<!-- mymap.on('click', onMapClick); -->
 
 
 // Add logo UNAH
