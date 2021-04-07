@@ -12,6 +12,8 @@
 	<!-- <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" /> -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="anonymous"/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.css" integrity="sha384-P9DABSdtEY/XDbEInD3q+PlL+BjqPCXGcF8EkhtKSfSTr/dS5PBKa9+/PMkW2xsY" crossorigin="anonymous">  
+	<script src="https://cdn.jsdelivr.net/gh/gokertanrisever/leaflet-ruler@master/src/leaflet-ruler.js" integrity="sha384-N2S8y7hRzXUPiepaSiUvBH1ZZ7Tc/ZfchhbPdvOE5v3aBBCIepq9l+dBJPFdo1ZJ" crossorigin="anonymous"></script>
 
 <!-- Adds LeafletJS library  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
@@ -124,6 +126,9 @@ var myStyle3 = L.icon({
 var airportLayer = new L.GeoJSON.AJAX(["data/airports.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStyle3});}});      
 airportLayer.addTo(mymap);
 
+var airportLayerMOD = new L.GeoJSON.AJAX(["data/airportsMOD.geojson"],{pointToLayer: function(geoJsonPoint,latlng){return L.marker(latlng,{icon:myStyle3});}});      
+airportLayer.addTo(mymap);
+
 // Prohibited, Restricted and Danger Areas style 
 //var myStyle2 = {
   //      "color": "#A82323",
@@ -173,6 +178,24 @@ var line2 = feature.properties.buffer_rad;
   };}
 
 var airportareaLayer = new L.GeoJSON.AJAX("data/areas_airports.geojson",{style:myStyle});       
+airportareaLayer.addTo(mymap);
+
+function myStylev (feature) {
+var colorToUse;
+var line2 = feature.properties.radio_km;
+  if (line2 === 5) colorToUse = "#FF00E2";
+  else if (line2 === 3) colorToUse = "#00A2FF";
+  else if (line2 === 1) colorToUse = "#AD0000";
+  else colorToUse = "#9CD866";
+
+ return {
+    "color": colorToUse,
+	"dashArray":"4",
+    "weight": 2,
+	"opacity": 0.95
+  };}
+
+var airportareaLayerMOD = new L.GeoJSON.AJAX("data/areas_airportsMOD.geojson",{style:myStylev});       
 airportareaLayer.addTo(mymap);
 
 // Area protegida
@@ -234,9 +257,11 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-    "Areas alrededor Aeropuertos y Helipuertos":airportareaLayer,
+	"MOD Aeropuertos y Helipuertos":airportLayerMOD,
+	"MOD Areas alrededor Aeropuertos y Helipuertos":airportareaLayerMOD,
+    "AIP Aeropuertos y Helipuertos":airportLayer,
+	"AIP Areas alrededor Aeropuertos y Helipuertos":airportareaLayer,
 	"Zonas Protegidas, Restringidas y Peligrosas":zprdLayer,
-	"Aeropuertos y Helipuertos":airportLayer,
 	"Areas Protegidas":areaprotegidaLayer,
 	"Centrales Hidrolectricas":hidroLayer,
 	"Energia Termica":TermicaLayer,
@@ -301,6 +326,26 @@ var logoContainer = document.getElementById("logoUNAH");
 // Add logo FLYGHT7
 var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
 var logoContainer = document.getElementById("logoFLYGHT7");
+
+// Add ruler
+var optionsw = {
+          position: 'topright',
+		  angleUnit:{
+		  display: '&deg;',           // This is the display value will be shown on the screen. Example: 'Gradian'
+        decimal: 2,                 // Bearing result will be fixed to this value.
+        factor: null,
+		  label: 'Rumbo:'
+		  },
+          lengthUnit: {
+            factor: 1,    //  from km to nm
+            display: 'KM',
+            decimal: 2,
+			label:'Distancia:'
+          }
+        };
+L.control.ruler(optionsw).addTo(mymap);
+//L.control.ruler().addTo(mymap);
+
 
 mapControlsContainer.appendChild(logoContainer);
 
